@@ -23,27 +23,36 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
+		  node: true,
+		  jasmine: true,
           jshintrc: 'test/.jshintrc'
         },
         src: ['test/*.js']
       }
     },
-
     // Test settings
-    karma: {
-      unit: {
-        configFile: 'test/karma.conf.js',
-        singleRun: true
+	jasmine: {
+      js: {
+        src: 'app/prime.js',
+        options: {
+          specs: 'test/prime.test.js',
+          helpers: 'tests/helpers/*',
+          vendor: 'vendor/*',
+          template: require('grunt-template-jasmine-requirejs')
+        }
       }
-    }
+    },
   });
-  
-  grunt.loadNpmTasks('jshint');
-  grunt.loadNpmTasks('karma');
 	
 
+  grunt.registerTask('check', [
+    'jshint'
+  ]);
+  grunt.registerTask('test', [
+    'jasmine'
+  ]);
   grunt.registerTask('default', [
     'jshint',
-    'karma'
+    'jasmine'
   ]);
 };
